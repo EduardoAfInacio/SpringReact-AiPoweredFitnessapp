@@ -6,7 +6,6 @@ import com.fitness.AiPowereredFitnessApp_UserMicroService.mapper.UserMapper;
 import com.fitness.AiPowereredFitnessApp_UserMicroService.model.User;
 import com.fitness.AiPowereredFitnessApp_UserMicroService.repository.UserRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,12 +13,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponse register(RegisterRequest request){
@@ -28,7 +25,7 @@ public class UserService {
         }
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(request.getPassword());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         var userSaved = userRepository.save(user);
