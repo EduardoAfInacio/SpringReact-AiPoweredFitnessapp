@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
 
   mongodb:
-    image: mongo:6
+    image: mongo
     container_name: mongo_db
     restart: always
     environment:
