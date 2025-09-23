@@ -1,12 +1,14 @@
 package com.fitness.AiPowereredFitnessApp_ActivityMicroService.controller.dto;
 
 import com.fitness.AiPowereredFitnessApp_ActivityMicroService.model.ActivityType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
+@AllArgsConstructor
 public class ActivityResponse {
     private String id;
     private String userId;

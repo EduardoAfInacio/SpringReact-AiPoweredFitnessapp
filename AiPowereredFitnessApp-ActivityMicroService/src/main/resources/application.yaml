@@ -3,12 +3,11 @@ spring:
     name: activity-service
   data:
     mongodb:
-      uri: mongodb://localhost:27017/fitnessdb
+      uri: mongodb://admin:123@localhost:27017/fitnessdb?authSource=admin
       port: 27017
       database: fitnessdb
-      user: admin
+      username: admin
       password: 123
-      authenticaton-database: admin
 
 server:
   port: 8082
