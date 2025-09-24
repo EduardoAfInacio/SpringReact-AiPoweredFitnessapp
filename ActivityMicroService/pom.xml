@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fitness</groupId>
-	<artifactId>AiPowereredFitnessApp-ActivityMicroService</artifactId>
+	<artifactId>ActivityMicroService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AiPowereredFitnessApp-ActivityMicroService</name>
 	<description>AI Powered Fitness app</description>
