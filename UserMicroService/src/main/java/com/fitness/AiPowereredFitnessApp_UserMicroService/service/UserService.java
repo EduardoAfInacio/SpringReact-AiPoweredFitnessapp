@@ -39,4 +39,8 @@ public class UserService {
         }
         return userMapper.toUserResponseFromEntityAllArgs(userFound.get());
     }
+
+    public Boolean existUserById(String userId) {
+        return userRepository.existsById(userId);
+    }
 }

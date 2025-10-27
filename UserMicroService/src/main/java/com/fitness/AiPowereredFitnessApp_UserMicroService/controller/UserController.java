@@ -4,7 +4,6 @@ import com.fitness.AiPowereredFitnessApp_UserMicroService.controller.dto.Registe
 import com.fitness.AiPowereredFitnessApp_UserMicroService.controller.dto.UserResponse;
 import com.fitness.AiPowereredFitnessApp_UserMicroService.service.UserService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +19,11 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUserProfile(@PathVariable String userId){
         return ResponseEntity.ok(userService.getUserProfile(userId));
+    }
+
+    @GetMapping("/{userId}/validate")
+    public ResponseEntity<Boolean> validateUser(@PathVariable String userId){
+        return ResponseEntity.ok(userService.existUserById(userId));
     }
 
     @PostMapping("/register")
