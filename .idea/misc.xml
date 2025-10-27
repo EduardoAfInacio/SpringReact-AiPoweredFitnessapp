@@ -13,6 +13,9 @@
       <list>
         <option value="$PROJECT_DIR$/AiPowereredFitnessApp-UserMicroService/pom.xml" />
         <option value="$PROJECT_DIR$/AiPowereredFitnessApp-ActivityMicroService/pom.xml" />
+        <option value="$PROJECT_DIR$/eurekaserver/pom.xml" />
+        <option value="$PROJECT_DIR$/UserMicroService/pom.xml" />
+        <option value="$PROJECT_DIR$/ActivityMicroService/pom.xml" />
       </list>
     </option>
   </component>
