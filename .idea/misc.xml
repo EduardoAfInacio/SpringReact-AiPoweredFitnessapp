@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/eurekaserver/pom.xml" />
         <option value="$PROJECT_DIR$/UserMicroService/pom.xml" />
         <option value="$PROJECT_DIR$/ActivityMicroService/pom.xml" />
+        <option value="$PROJECT_DIR$/AiMicroService/pom.xml" />
       </list>
     </option>
   </component>
