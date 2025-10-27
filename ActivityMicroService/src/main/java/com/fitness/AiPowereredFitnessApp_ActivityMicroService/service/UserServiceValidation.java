@@ -1,6 +1,7 @@
 package com.fitness.AiPowereredFitnessApp_ActivityMicroService.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,10 +9,12 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceValidation {
     private final WebClient userServiceWebClient;
 
     public boolean validateUserId(String userId){
+        log.info("Checking if user exists with id: {}", userId);
         try{
             return userServiceWebClient.get()
                     .uri("/api/users/{userId}/validate", userId)

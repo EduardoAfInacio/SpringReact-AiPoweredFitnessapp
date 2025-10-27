@@ -5,11 +5,13 @@ import com.fitness.AiPowereredFitnessApp_UserMicroService.controller.dto.UserRes
 import com.fitness.AiPowereredFitnessApp_UserMicroService.mapper.UserMapper;
 import com.fitness.AiPowereredFitnessApp_UserMicroService.model.User;
 import com.fitness.AiPowereredFitnessApp_UserMicroService.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -41,6 +43,7 @@ public class UserService {
     }
 
     public Boolean existUserById(String userId) {
+        log.info("Calling validation API endpoint");
         return userRepository.existsById(userId);
     }
 }
