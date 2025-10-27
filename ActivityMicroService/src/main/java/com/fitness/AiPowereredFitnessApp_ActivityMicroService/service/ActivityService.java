@@ -17,8 +17,16 @@ import java.util.List;
 public class ActivityService {
     private final ActivityRepository activityRepository;
     private final ActivityMapper activityMapper;
+    private final UserServiceValidation userServiceValidation;
 
     public ActivityResponse saveActivity(ActivityRequest request){
+
+        boolean isValidUser = userServiceValidation.validateUserId(request.getUserId());
+
+        if(!isValidUser){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found");
+        }
+
         var activity = Activity.builder()
                 .userId(request.getUserId())
                 .type(request.getActivityType())
