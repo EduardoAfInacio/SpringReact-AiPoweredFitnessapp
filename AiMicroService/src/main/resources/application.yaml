@@ -1,12 +1,12 @@
 spring:
   application:
-    name: activity-service
+    name: ai-service
   data:
     mongodb:
-      uri: mongodb://admin:123@localhost:27017/fitnessdb?authSource=admin
+      uri: mongodb://admin:123@localhost:27017/aidb?authSource=admin
 
 server:
-  port: 8082
+  port: 8083
 
 eureka:
   client:
