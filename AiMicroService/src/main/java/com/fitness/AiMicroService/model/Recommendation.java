@@ -1,7 +1,9 @@
 package com.fitness.AiMicroService.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,6 +15,8 @@ import java.util.List;
 @Document(collection = "recommendations")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Recommendation {
     @Id
     private String id;
@@ -24,6 +28,4 @@ public class Recommendation {
     private List<String> safety;
     @CreatedDate
     private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 }
