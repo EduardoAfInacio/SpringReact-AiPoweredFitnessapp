@@ -6,6 +6,9 @@ import com.fitness.AiPowereredFitnessApp_ActivityMicroService.mapper.ActivityMap
 import com.fitness.AiPowereredFitnessApp_ActivityMicroService.model.Activity;
 import com.fitness.AiPowereredFitnessApp_ActivityMicroService.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,10 +17,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ActivityService {
     private final ActivityRepository activityRepository;
     private final ActivityMapper activityMapper;
     private final UserServiceValidation userServiceValidation;
+    private final RabbitTemplate rabbitTemplate;
+    @Value("${rabbitmq.exchange.name}")
+    private String exchange;
+    @Value("${rabbitmq.routing.key}")
+    private String routingKey;
 
     public ActivityResponse saveActivity(ActivityRequest request){
 
@@ -37,6 +46,13 @@ public class ActivityService {
                 .build();
 
         var activityEntity = activityRepository.save(activity);
+
+        try{
+            rabbitTemplate.convertAndSend(exchange, routingKey, activityEntity);
+        }catch (Exception e){
+            log.error("Error sending message to rabbitmq: {}", e.getMessage());
+        }
+
         return activityMapper.toResponseFromEntity(activityEntity);
     }
 
