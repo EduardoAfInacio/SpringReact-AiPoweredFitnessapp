@@ -29,7 +29,7 @@ public class GeminiService {
                 });
 
         try{
-            return webClient.post()
+            String response = webClient.post()
                     .uri(geminiApiUrl)
                     .header("Content-Type", "application/json")
                     .header("x-goog-api-key", geminiApiKey)
@@ -37,6 +37,8 @@ public class GeminiService {
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
+
+            return response;
         }catch (WebClientResponseException e){
             return "Error when calling Gemini API:" + e.getStatusCode() + "-" + e.getResponseBodyAsString();
         }catch (Exception e){
