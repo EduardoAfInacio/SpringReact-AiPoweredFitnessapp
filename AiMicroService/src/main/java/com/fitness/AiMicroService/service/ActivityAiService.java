@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,27 +20,27 @@ import java.util.List;
 public class ActivityAiService {
     private final GeminiService geminiService;
 
-    public String generateRecommendation(Activity activity) {
+    public Recommendation generateRecommendation(Activity activity) {
         String prompt = createPromptForActivity(activity);
         String aiResponse = geminiService.getAnswer(prompt);
-        Recommendation processedAiResponse = processAiResponse(activity, aiResponse);
-        return aiResponse;
+        return processAiResponse(activity, aiResponse);
     }
 
     private Recommendation processAiResponse(Activity activity, String aiResponse) {
         try{
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(aiResponse);
-            JsonNode textNode = jsonNode.path("candidates").get(0).path("content").path("parts").get(0).path("text");
+            JsonNode text = jsonNode.path("candidates").get(0).path("content").path("parts").get(0).path("text");
 
-            String text = textNode.asText()
+            String textFormated = text.asText()
                     .replaceAll("```json\\n","")
                     .replaceAll("\\n```", "")
                     .trim();
 
-            log.info("AI PARSED RESPONSE: {}", text);
 
+            JsonNode textNode = mapper.readTree(textFormated);
             JsonNode analysisNode = textNode.path("analysis");
+
             StringBuilder recommendation = new StringBuilder();
             addAnalysisSection(recommendation, analysisNode,"overall", "Overall:");
             addAnalysisSection(recommendation, analysisNode,"pace", "Pace:");
@@ -57,11 +59,30 @@ public class ActivityAiService {
                     .improvements(improvements)
                     .suggestions(suggestions)
                     .safety(safety)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
         }catch (Exception e){
             e.printStackTrace();
+            return createDefaultRecommendation(activity);
         }
+    }
+
+    private Recommendation createDefaultRecommendation(Activity activity) {
+        return Recommendation.builder()
+                .activityId(activity.getId())
+                .userId(activity.getUserId())
+                .activityType(activity.getType().name())
+                .recommendation("Unable to generate detailed analysis")
+                .improvements(Collections.singletonList("Continue with your current routine"))
+                .suggestions(Collections.singletonList("Consider consulting a fitness professional"))
+                .safety(Arrays.asList(
+                        "Always warm up before exercise",
+                        "Stay hydrated",
+                        "Listen to your body"
+                ))
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
     private void addAnalysisSection(StringBuilder fullAnalysis, JsonNode analysisNode, String key, String prefix) {
@@ -76,7 +97,7 @@ public class ActivityAiService {
             improvementsNode.forEach(improvement -> {
                 String area = improvement.path("area").asText();
                 String recommendation = improvement.path("recommendation").asText();
-                improvements.add(String.format("%s:, %s", area, recommendation));
+                improvements.add(String.format("%s: %s", area, recommendation));
             });
         }
         return improvements.isEmpty() ?
@@ -90,7 +111,7 @@ public class ActivityAiService {
             suggestionsNode.forEach(suggestion -> {
                 String workout = suggestion.path("workout").asText();
                 String description = suggestion.path("description").asText();
-                suggestions.add(String.format("%s:, %s", workout, description));
+                suggestions.add(String.format("%s: %s", workout, description));
             });
         }
         return suggestions.isEmpty() ?
