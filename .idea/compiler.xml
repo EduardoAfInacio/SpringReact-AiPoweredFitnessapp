@@ -12,7 +12,7 @@
         <module name="AiMicroService" />
         <module name="configuration-server" />
       </profile>
-      <profile name="Annotation profile for AiPowereredFitnessApp-ActivityMicroService" enabled="true">
+      <profile name="Annotation profile for AiPowereredFitnessApp-UserMicroService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
