@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eurekaserver" />
+        <module name="api-gateway" />
         <module name="AiMicroService" />
         <module name="configuration-server" />
       </profile>
@@ -28,6 +29,7 @@
       <module name="ActivityMicroService" options="-parameters" />
       <module name="AiMicroService" options="-parameters" />
       <module name="UserMicroService" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
       <module name="configuration-server" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
     </option>
