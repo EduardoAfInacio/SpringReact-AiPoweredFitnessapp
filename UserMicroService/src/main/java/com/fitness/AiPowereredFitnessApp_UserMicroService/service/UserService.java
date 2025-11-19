@@ -23,9 +23,11 @@ public class UserService {
 
     public UserResponse register(RegisterRequest request){
         if(userRepository.existsByEmail(request.getEmail())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+            User existingUser = userRepository.findByEmail(request.getEmail());
+            return userMapper.toUserResponseFromEntityAllArgs(existingUser);
         }
         User user = new User();
+        user.setKeycloakId(request.getKeycloakId());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setFirstName(request.getFirstName());
@@ -42,8 +44,8 @@ public class UserService {
         return userMapper.toUserResponseFromEntityAllArgs(userFound.get());
     }
 
-    public Boolean existUserById(String userId) {
+    public Boolean existUserByKeycloakId(String userKeycloakId) {
         log.info("Calling validation API endpoint");
-        return userRepository.existsById(userId);
+        return userRepository.existsByKeycloakId(userKeycloakId);
     }
 }

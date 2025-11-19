@@ -9,6 +9,7 @@ public class UserMapper {
     public UserResponse toUserResponseFromEntityAllArgs(User user){
         return new UserResponse(
                 user.getId(),
+                user.getKeycloakId(),
                 user.getEmail(),
                 user.getPassword(),
                 user.getFirstName(),
