@@ -1,4 +1,4 @@
-package com.fitness.AiPowereredFitnessApp_ActivityMicroService.service;
+package com.fitnessapp.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,21 +10,21 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceValidation {
-    private final WebClient userServiceWebClient;
+public class UserService {
+    private final WebClient webClient;
 
-    public boolean validateUserId(String userKeycloakId){
+    public boolean validateUserId(String userKeycloakId) {
         log.info("Checking if user exists with id: {}", userKeycloakId);
         try{
-            return userServiceWebClient.get()
-                    .uri("/api/users/{userKeycloakId}/validate", userKeycloakId)
+            return webClient.get()
+                    .uri("/api/users/{userKeycloakId}/validate")
                     .retrieve()
                     .bodyToMono(Boolean.class)
                     .block();
         }catch (WebClientResponseException e){
             if(e.getStatusCode() == HttpStatus.NOT_FOUND){
                 throw new RuntimeException("User not found:" + userKeycloakId);
-            } else if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+            }else if(e.getStatusCode() == HttpStatus.BAD_REQUEST){
                 throw new RuntimeException("Invalid request:" + userKeycloakId);
             }
         }
