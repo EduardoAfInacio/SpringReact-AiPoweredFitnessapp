@@ -16,9 +16,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserResponse> getUserProfile(@PathVariable String userId){
-        return ResponseEntity.ok(userService.getUserProfile(userId));
+    @GetMapping("/{userKeycloakId}")
+    public ResponseEntity<UserResponse> getUserProfile(@PathVariable String userKeycloakId){
+        return ResponseEntity.ok(userService.getUserProfile(userKeycloakId));
     }
 
     @GetMapping("/{userKeycloakId}/validate")

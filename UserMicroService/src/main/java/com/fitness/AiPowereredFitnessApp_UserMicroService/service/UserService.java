@@ -36,8 +36,8 @@ public class UserService {
         return userMapper.toUserResponseFromEntityAllArgs(userSaved);
     }
 
-    public UserResponse getUserProfile(String userId) {
-        var userFound = userRepository.findById(userId);
+    public UserResponse getUserProfile(String userKeycloakId) {
+        var userFound = userRepository.findByKeycloakId(userKeycloakId);
         if(userFound.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
