@@ -1,4 +1,4 @@
-package com.fitnessapp.user;
+package com.fitnessapp.api_gateway.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
