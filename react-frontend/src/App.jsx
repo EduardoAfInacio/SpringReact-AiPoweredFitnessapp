@@ -1,15 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { Button } from "@mui/material";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "react-oauth2-code-pkce";
+import { useDispatch } from "react-redux";
+import {BrowserRouter as Router, Navigate, Route, Routes, useLocation} from "react-router";
+import { setCredentials } from "./store/authSlice";
 
-import {Provider} from 'react-redux';
-import store from './store';
+function App() {
+  const { token, tokenData, logIn, logOut, isAuthenticated } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const [authReady, setAuthReady] = useState(false);
 
-import App from './App';
+  useEffect(() => {
+    if(token && tokenData){
+        dispatch(setCredentials({ token, user: tokenData }));
+        setAuthReady(true);
+    }
+  }, [token, tokenData, dispatch]);
 
+  return (
+    <Router>
+        {!token ? (
+                <Button variant="contained" sx={{backgroundColor: "#dc004"}} onClick={() => logIn()}>
+                    Login
+                </Button>
+        ) : (
+            <div>
+                <pre>{JSON.stringify(tokenData, null, 2)}</pre>
+            </div>
+        )}
+    </Router>
+  );
+}
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>,
-)
+export default App;
