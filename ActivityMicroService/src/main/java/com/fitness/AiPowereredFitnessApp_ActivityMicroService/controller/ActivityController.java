@@ -25,8 +25,8 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.saveActivity(request));
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ActivityResponse>> getUserActivities(@PathVariable String userId){
+    @GetMapping
+    public ResponseEntity<List<ActivityResponse>> getUserActivities(@RequestHeader("X-User-ID") String userId){
         return ResponseEntity.ok(activityService.getUserActivities(userId));
     }
 

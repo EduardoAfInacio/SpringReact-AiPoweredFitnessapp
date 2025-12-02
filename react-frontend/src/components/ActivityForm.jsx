@@ -4,7 +4,7 @@ import { Button, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/mat
 import { saveActivity } from '../services/api';
 
 
-const ActivityForm = ({onActivityAdded}) => {
+const ActivityForm = ({onActivitiesAdded}) => {
 
     const [activity, setActivity] = useState({
         activityType: "RUNNING",
@@ -17,7 +17,6 @@ const ActivityForm = ({onActivityAdded}) => {
         e.preventDefault();
         try{
             saveActivity(activity);
-            onActivityAdded();
             setActivity({type: "RUNNING", duration: 0, caloriesBurned: ''});
         }catch(error){
             console.error("Error submitting activity:", error);
