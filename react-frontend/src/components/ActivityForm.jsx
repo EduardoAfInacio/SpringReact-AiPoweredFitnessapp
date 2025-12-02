@@ -1,21 +1,22 @@
 import { TextField } from '@mui/material';
 import {React, useState} from 'react';
 import { Button, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { saveActivity } from '../services/api';
 
 
 const ActivityForm = ({onActivityAdded}) => {
 
     const [activity, setActivity] = useState({
-        type: "RUNNING",
+        activityType: "RUNNING",
         duration: '',
-        caloriesBurned: '',
+        calories: '',
         additionalMetrics: {}
     })
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            //await addActivity(activity);
+            saveActivity(activity);
             onActivityAdded();
             setActivity({type: "RUNNING", duration: 0, caloriesBurned: ''});
         }catch(error){
@@ -29,7 +30,7 @@ const ActivityForm = ({onActivityAdded}) => {
                 <InputLabel>Activity Type</InputLabel>
                 <Select
                 value={activity.type}
-                onChange={(e) => setActivity({ ...activity, type: e.target.value })}
+                onChange={(e) => setActivity({ ...activity, activityType: e.target.value })}
                 >
                     <MenuItem value="RUNNING">Running</MenuItem>
                     <MenuItem value="CYCLING">Cycling</MenuItem>
@@ -63,7 +64,7 @@ const ActivityForm = ({onActivityAdded}) => {
                 type="number"
                 sx={{mb:2}}
                 value={activity.caloriesBurned}
-                onChange={(e) => setActivity({...activity, caloriesBurned: e.target.value})}/>
+                onChange={(e) => setActivity({...activity, calories: e.target.value})}/>
             <Button type="submit" variant="contained">
                 Add Activity
             </Button>
