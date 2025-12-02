@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { getActivityRecommendation } from '../services/api';
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 
 const ActivityDetail = () => {
     const {id} = useParams();
-    const [activity, setActivity] = useState(null);
+    const {activity} = useLocation().state || {};
     const [recommendation, setRecommendation] = useState(null);
 
     useEffect(() => {
         const fetchActivityRecommendations = async () => {
             try{
                 const response = await getActivityRecommendation(id);
-                setActivity(response.data);
-                setRecommendation(response.data.recommendation);
+                setRecommendation(response.data);
             }catch(error){
                 console.error("Error fetching activity details:", error);
             }
@@ -38,19 +37,19 @@ const ActivityDetail = () => {
                 </CardContent>
             </Card>
 
-            {activity?.recommendation && (
+            {recommendation?.recommendation && (
                 <Card>
                     <CardContent>
                         <Typography variant='h5' gutterBottom>AI Recommendation</Typography>
 
                         <Typography variant='h6'>Analisys</Typography>
-                        <Typography paragraph>{activity.recommendation}</Typography>
+                        <Typography paragraph>{recommendation.recommendation}</Typography>
 
                         <Divider sx={{my:2}}/>
 
                         <Typography variant='h6'>Improvements</Typography>
-                        {Array.isArray(activity.improvements) && activity.improvements.length > 0 ?(
-                            activity.improvements.map((improvements, index) => (
+                        {Array.isArray(recommendation.improvements) && recommendation.improvements.length > 0 ?(
+                            recommendation.improvements.map((improvements, index) => (
                                 <Typography key={index} paragraph>{improvements}</Typography>
                             ))
                         ) : (
@@ -60,8 +59,8 @@ const ActivityDetail = () => {
                         <Divider sx={{my:2}}/>
 
                         <Typography variant='h6'>suggestions</Typography>
-                        {Array.isArray(activity.suggestions) && activity.suggestions.length > 0 ?(
-                            activity.suggestions.map((suggestion, index) => (
+                        {Array.isArray(recommendation.suggestions) && recommendation.suggestions.length > 0 ?(
+                            recommendation.suggestions.map((suggestion, index) => (
                                 <Typography key={index} paragraph>{suggestion}</Typography>
                             ))
                         ) : (
@@ -71,8 +70,8 @@ const ActivityDetail = () => {
                         <Divider sx={{my:2}}/>
 
                         <Typography variant='h6'>Safety Guidelines</Typography>
-                        {Array.isArray(activity.safety) && activity.safety.length > 0 ?(
-                            activity.safety.map((safety, index) => (
+                        {Array.isArray(recommendation.safety) && recommendation.safety.length > 0 ?(
+                            recommendation.safety.map((safety, index) => (
                                 <Typography key={index} paragraph>{safety}</Typography>
                             ))
                         ) : (
